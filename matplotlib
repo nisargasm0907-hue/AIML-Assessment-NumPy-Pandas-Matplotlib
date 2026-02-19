@@ -1,0 +1,44 @@
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+a = np.arange(1,21)
+print(a)
+print(a.reshape(4,5))
+print("Mean:", np.mean(a))
+print("Median:", np.median(a))
+print("Std:", np.std(a))
+print("Even:", a[a%2==0])
+
+r = np.random.rand(5,5)
+print("Random Matrix:\n", r)
+print("Transpose:\n", r.T)
+
+
+df = pd.read_csv("student_data.csv")
+print(df.head())
+print(df.tail())
+
+df = df.fillna(0)
+df["Average"] = df[["Math","Science","English"]].mean(axis=1)
+
+print("Top Student:\n", df.loc[df["Average"].idxmax()])
+print("Math >75:\n", df[df["Math"]>75])
+
+df["Result"] = df["Average"].apply(lambda x: "Pass" if x>=40 else "Fail")
+
+
+plt.bar(df["Name"], df["Average"])
+plt.title("Average Marks")
+plt.show()
+
+plt.pie(df["Result"].value_counts(), labels=df["Result"].value_counts().index, autopct="%1.1f%%")
+plt.show()
+
+plt.plot(df["Name"], df["Math"], label="Math")
+plt.plot(df["Name"], df["Science"], label="Science")
+plt.plot(df["Name"], df["English"], label="English")
+plt.legend()
+plt.show()
